@@ -21,7 +21,9 @@ SCRAPEOPS_PROXY_ENABLED = True
 DOWNLOADER_MIDDLEWARES = {
     'datajobs.middlewares.ScrapeOpsFakeUserAgentMiddleware': 400,
     'datajobs.middlewares.ScrapeOpsFakeBrowserHeaderAgentMiddleware': 500,
-    'scrapeops_scrapy_proxy_sdk.scrapeops_scrapy_proxy_sdk.ScrapeOpsScrapyProxySdk': 725,
+    'scrapeops_scrapy_proxy_sdk.scrapeops_scrapy_proxy_sdk.ScrapeOpsScrapyProxySdk': 300,
+    'scrapeops_scrapy.middleware.retry.RetryMiddleware': 550,
+    'scrapy.downloadermiddlewares.retry.RetryMiddleware': None
 }
 
 FEEDS = {
@@ -30,14 +32,18 @@ FEEDS = {
         }
 }
 
-# DOWNLOAD_DELAY = 2
+DOWNLOAD_DELAY = 2
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 5
 
+
+EXTENSIONS = {
+'scrapeops_scrapy.extension.ScrapeOpsMonitor': 500, 
+}
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
